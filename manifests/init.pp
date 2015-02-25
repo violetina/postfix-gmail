@@ -27,21 +27,14 @@ class postfix-gmail($username, $userpassword) {
 	}
 
 
-       file { 'cacert.pem':
-	        source => "puppet:///modules/postfix-gmail/cacert.pem",
-        	path => '/etc/postfix/cacert.pem',
-        	replace => false,
-        	mode => 0644,
-        	owner => 'root',
-        	group => 'root',
-    	}
+
 
 
        exec { 'run_postmap':
 	      path => "/usr/sbin/:/usr/bin/",
 	      command => "postmap /etc/postfix/sasl_passwd",
 	      returns => [0],
-	      require => [File['conf-saslpassword'], File['cacert.pem']],
+	      require => File['conf-saslpassword'],
 	  }
   
 	
